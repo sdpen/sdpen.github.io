@@ -9,7 +9,7 @@
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,var(--bg) 0%, #071026 100%);color:var(--text);-webkit-font-smoothing:antialiased}
 .wrap{max-width:1000px;margin:28px auto;padding:0 20px}
-.site-header{background:rgba(255,255,255,0.02);backdrop-filter:blur(4px);position:sticky;top:0;z-index:50}
+.site-header{background:rgba(255,255,255,0.02);backdrop-filter:blur(4px);position:sticky;top:0;z-index:70}
 .header-inner{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;position:relative}
 .brand{display:flex;gap:14px;align-items:center}
 .avatar{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.6)}
@@ -36,18 +36,31 @@ html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe 
 }
 .menu-toggle svg{display:block}
 
-/* Mobile navigation (hidden by default) */
+/* Overlay that covers the page when mobile menu is open */
+.menu-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  z-index:58;
+  touch-action:manipulation;
+}
+.menu-overlay.active{display:block}
+
+/* Mobile navigation (fixed and opaque) */
 .mobile-nav{
   display:none;
-  position:absolute;
+  position:fixed;
   left:0;
   right:0;
-  top:100%;
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-top:1px solid rgba(255,255,255,0.02);
-  padding:10px 20px 18px;
-  box-shadow:0 8px 30px rgba(0,0,0,0.6);
-  z-index:45;
+  top:0;
+  background:rgba(2,6,23,0.98); /* almost opaque so background text doesn't show */
+  padding:70px 18px 18px; /* leave space for header area */
+  box-shadow:0 12px 40px rgba(0,0,0,0.6);
+  z-index:60;
+  -webkit-overflow-scrolling:touch;
+  max-height:100vh;
+  overflow:auto;
 }
 .mobile-nav.open{display:block}
 .mobile-nav .nav-link{
@@ -56,9 +69,11 @@ html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe 
   font-size:1rem;
   border-radius:8px;
   margin-bottom:6px;
+  color:var(--text);
 }
 .mobile-nav .nav-link:hover{background:rgba(255,255,255,0.02)}
 
+/* keep header above everything when menu closed; menu and overlay appear above content when open */
 .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;margin-top:18px;box-shadow:0 4px 18px rgba(0,0,0,.6)}
 h2{margin:0 0 12px;font-size:1.25rem}
 .small{color:var(--muted);font-size:.95rem;margin:6px 0 0}
@@ -131,13 +146,14 @@ a:hover{opacity:0.95}
   .site-footer{margin:20px 0 28px}
 
   /* make mobile nav full-width and touch-friendly */
-  .mobile-nav{padding:12px 14px 16px}
+  .mobile-nav{padding:80px 14px 18px}
   .mobile-nav .nav-link{padding:14px 10px;font-size:1.05rem}
 }
 
-/* Close mobile nav when printing or prefers-reduced-motion etc. */
+/* Close mobile nav when printing */
 @media print {
   .mobile-nav{display:none !important}
+  .menu-overlay{display:none !important}
 }
 
 /* Ensure high-contrast for printed or forced color-scheme */
