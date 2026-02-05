@@ -119,15 +119,15 @@
           <h3>Education</h3>
           <ul>
             <li>
-              <strong>2021 – 2024</strong> — Doctorate (PhD) - Applied Mathematics, INP, Toulouse, France
+              <strong>2021 – 2024</strong> — Doctorate (PhD) - Applied Mathematics, INPT, Toulouse, France
             </li>
-            <br>
+
             <li>
-              <strong>2019 – 2021</strong> — Engineering / Master's degree, Data Science and Advanced Statistical Engineering, ENSAI, Rennes, France
+              <strong>2019 – 2021</strong> — Engineering / Master's Degree in Data Science and Advanced Statistical Engineering, ENSAI, Rennes, France
             </li>
-            <br>
+
             <li>
-              <strong>2015 – 2019</strong> — Engineering degree, Statistics and Business Intelligence, ENSAE, Dakar, Senegal
+              <strong>2015 – 2019</strong> — Engineering Degree in Statistics and Business Intelligence, ENSAE, Dakar, Senegal
             </li>
           </ul>
         </div>
@@ -145,6 +145,10 @@
         <br>
         <li>
           <p class="pub-title"><strong>Pene, S. D.</strong>; Picot, A.; Savy, N.; Jaafar, A.; Turpin, C.; Gamboa, F. (2025). Fuel Cell Performance Prediction under Variable Conditions Based on Extented Kalman Filter and Random Forests. In <em>2025 IEEE Symposium on Diagnostics for Electric Machines, Power Electronics and Drives (SDEMPED)</em>, 1–6.</p>
+        </li>
+        <br>
+        <li>
+          <p class="pub-title"><strong>Pene, S. D.</strong>; Picot, A.; Gamboa, F.; Savy, N.; Turpin, C.; Jaafar, A. (2025). Prédiction de durée de vie d'une pile à combustible à membrane échangeuse de protons par filtre de Kalman étendu combiné à des simulations Monte-Carlo. In <em>2025 Symposium de Génie Electrique (SGE)</em>.</p>
         </li>
         <br>
         <li>
@@ -237,6 +241,13 @@
           }
         });
       });
+
+      // Prevent clicks inside the mobile nav from reaching the document/overlay
+      if (mobileNav) {
+        mobileNav.addEventListener('click', function(e){
+          e.stopPropagation();
+        });
+      }
 
       // Mobile menu functions
       function openMobileNav() {
