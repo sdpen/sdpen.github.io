@@ -1,6 +1,7 @@
 :root{
   --bg:#000000;
   --card:#071026;
+  --nav-bg:#021226; /* fond solide du menu mobile */
   --accent:#0ea5a4;
   --text:#ffffff;
   --muted:#9aa4b2;
@@ -41,23 +42,23 @@ html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe 
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.55);
-  z-index:58;
+  background:rgba(0,0,0,0.75); /* plus opaque pour masquer le fond */
+  z-index:95; /* sous le mobile-nav, au-dessus du contenu */
   touch-action:manipulation;
 }
 .menu-overlay.active{display:block}
 
-/* Mobile navigation (fixed and opaque) */
+/* Mobile navigation (fixed and fully opaque) */
 .mobile-nav{
   display:none;
   position:fixed;
   left:0;
   right:0;
   top:0;
-  background:rgba(2,6,23,0.98); /* almost opaque so background text doesn't show */
+  background:var(--nav-bg); /* fond SOLIDE (non transparent) */
   padding:70px 18px 18px; /* leave space for header area */
   box-shadow:0 12px 40px rgba(0,0,0,0.6);
-  z-index:60;
+  z-index:100; /* au-dessus de l'overlay et de l'en-tête */
   -webkit-overflow-scrolling:touch;
   max-height:100vh;
   overflow:auto;
