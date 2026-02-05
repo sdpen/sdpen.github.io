@@ -42,11 +42,15 @@ html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe 
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.75); /* plus opaque pour masquer le fond */
-  z-index:95; /* sous le mobile-nav, au-dessus du contenu */
+  background:rgba(0,0,0,0.75);
+  z-index:90; /* dessous le mobile-nav */
   touch-action:manipulation;
+  pointer-events:none; /* ne capte pas les clics tant que non active */
 }
-.menu-overlay.active{display:block}
+.menu-overlay.active{
+  display:block;
+  pointer-events:auto; /* capte les clics seulement quand active */
+}
 
 /* Mobile navigation (fixed and fully opaque) */
 .mobile-nav{
@@ -58,10 +62,11 @@ html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe 
   background:var(--nav-bg); /* fond SOLIDE (non transparent) */
   padding:70px 18px 18px; /* leave space for header area */
   box-shadow:0 12px 40px rgba(0,0,0,0.6);
-  z-index:100; /* au-dessus de l'overlay et de l'en-tête */
+  z-index:1000; /* bien au-dessus de l'overlay */
   -webkit-overflow-scrolling:touch;
   max-height:100vh;
   overflow:auto;
+  pointer-events:auto; /* accepter les clics */
 }
 .mobile-nav.open{display:block}
 .mobile-nav .nav-link{
