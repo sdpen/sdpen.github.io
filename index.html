@@ -45,6 +45,9 @@
     </div>
   </header>
 
+  <!-- Overlay inserted here so it covers the page when menu is open -->
+  <div id="menuOverlay" class="menu-overlay" aria-hidden="true" tabindex="-1"></div>
+
   <main class="wrap" id="main">
     <!-- HOME / HERO (visible by default) -->
     <section id="home" class="card panel" aria-hidden="false" role="region" aria-label="Home" tabindex="-1">
@@ -191,7 +194,7 @@
 
   <script>
     // Basic tab-like behavior using hashes and data-target attributes,
-    // plus mobile menu toggle behavior.
+    // plus mobile menu toggle behavior with overlay handling.
     (function(){
       const panels = document.querySelectorAll('.panel');
       const navLinks = document.querySelectorAll('.nav-link, .hero-cta a, .back-home');
@@ -199,6 +202,7 @@
 
       const menuToggle = document.getElementById('menuToggle');
       const mobileNav = document.getElementById('mobileNav');
+      const menuOverlay = document.getElementById('menuOverlay');
 
       function showPanel(id, updateHash = true) {
         panels.forEach(p => {
@@ -236,10 +240,12 @@
 
       // Mobile menu functions
       function openMobileNav() {
-        if (!mobileNav || !menuToggle) return;
+        if (!mobileNav || !menuToggle || !menuOverlay) return;
         mobileNav.classList.add('open');
         mobileNav.setAttribute('aria-hidden', 'false');
         menuToggle.setAttribute('aria-expanded', 'true');
+        menuOverlay.classList.add('active');
+        menuOverlay.setAttribute('aria-hidden', 'false');
         // move focus into the mobile nav for keyboard users
         const firstLink = mobileNav.querySelector('.nav-link');
         if (firstLink) firstLink.focus();
@@ -247,15 +253,17 @@
         document.documentElement.style.overflow = 'hidden';
       }
       function closeMobileNav() {
-        if (!mobileNav || !menuToggle) return;
+        if (!mobileNav || !menuToggle || !menuOverlay) return;
         mobileNav.classList.remove('open');
         mobileNav.setAttribute('aria-hidden', 'true');
         menuToggle.setAttribute('aria-expanded', 'false');
+        menuOverlay.classList.remove('active');
+        menuOverlay.setAttribute('aria-hidden', 'true');
         document.documentElement.style.overflow = '';
         menuToggle.focus();
       }
 
-      if (menuToggle && mobileNav) {
+      if (menuToggle && mobileNav && menuOverlay) {
         menuToggle.addEventListener('click', function(e){
           const isOpen = mobileNav.classList.contains('open');
           if (isOpen) closeMobileNav(); else openMobileNav();
@@ -268,11 +276,16 @@
           }
         });
 
-        // click outside to close (only when open)
+        // click on overlay closes menu
+        menuOverlay.addEventListener('click', function(){
+          if (mobileNav.classList.contains('open')) closeMobileNav();
+        });
+
+        // click outside to close (extra safety)
         document.addEventListener('click', function(e){
           if (!mobileNav.classList.contains('open')) return;
           const target = e.target;
-          if (!mobileNav.contains(target) && target !== menuToggle && !menuToggle.contains(target)) {
+          if (!mobileNav.contains(target) && target !== menuToggle && !menuToggle.contains(target) && !menuOverlay.contains(target)) {
             closeMobileNav();
           }
         });
